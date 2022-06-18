@@ -1,7 +1,13 @@
+import { Summary } from "components/summary/summary";
+import { TransactionsTable } from "components/transactionsTable/transactionsTable";
+
+import { Container } from "./dashboard.styles";
+
 export const Dashboard = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
-    </div>
+    <Container>
+      <Summary />
+      <TransactionsTable />
+    </Container>
   );
 };
