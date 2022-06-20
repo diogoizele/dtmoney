@@ -1,11 +1,13 @@
-import { useEffect } from "react";
-import { api } from "services/api";
+import { useTransactions } from "hooks/useTransactions";
+import { formatAmount } from "utils/formatCurrency";
 import { Container } from "./transactionsTable.styles";
 
 export const TransactionsTable = () => {
-  useEffect(() => {
-    api.get("/transactions").then((response) => console.log(response));
-  }, []);
+  const { transactions } = useTransactions();
+
+  const formatDate = (date: string) => {
+    return new Intl.DateTimeFormat("pt-BR").format(new Date(date));
+  };
 
   return (
     <Container>
@@ -19,12 +21,16 @@ export const TransactionsTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Desenvolvimento de website</td>
-            <td>R$12.000,00</td>
-            <td>Desenvolvimento</td>
-            <td>23/03/2022</td>
-          </tr>
+          {transactions.map(
+            ({ id, title, amount, category, createdAt, type }) => (
+              <tr key={id}>
+                <td>{title}</td>
+                <td className={type}>{formatAmount(amount)}</td>
+                <td>{category}</td>
+                <td>{formatDate(createdAt)}</td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </Container>
